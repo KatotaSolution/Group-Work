@@ -1,0 +1,154 @@
+Com base num conjunto de dados sobre Continentes ,Paises,Codigos Poistais,Cidades.
+, entre outros elaborar algoritmos e respetivo programa em Python que permita gerir dados de
+Clubes, Jogadores, Equipas, Estádios e Jogos (isto é: inserir, alterar, eliminar, listar, pesquisar,ordenar,contar,etc.)
+##############################################################################################################################
+#Programas em Python
+# Gestão de Jogadores
+import os
+nome_ficheiro = 'JOGADORES.TXT'
+
+def Eliminar():
+    nome_procurar = input("Nome a procurar?")
+    f = open(nome_ficheiro, "rt")
+    linhas = f.readlines()  # vetor
+    f.close()
+    enc = False
+    nl = 0
+    for linha in linhas:
+        nome = linha[0:49]
+        data = linha[50:50 + 10]
+        if nome.find(nome_procurar) >= 0:
+            print("Nome encontrado")
+            print(linha)
+            enc = True
+            o = input("Confirma eliminar (S/N)?")
+            if (o == 'S' ):
+                f = open(nome_ficheiro, "wt")
+                for i in range(0, len(linhas)):
+                    if i != nl:
+                        print(linhas[i], file=f, end='')
+                f.close()
+                break
+        nl = nl +1
+    if not enc:
+        print("O nome %s não existe." % nome_procurar)
+
+
+def PesquisaPorNome():
+    # pedir o nome a procurar
+    # Ler o ficheiro para um vetor
+    # comparar o nome de cada elemento do
+    # vetor com o nome_procurar
+    # nome_procurar = LerNome()
+    nome_procurar = input("Nome a procurar?")
+    f = open(nome_ficheiro, "rt")
+    linhas = f.readlines()  # vetor
+    f.close()
+    enc = False
+    for linha in linhas:
+        nome = linha[0:49]
+        data = linha[50:50+10]
+        if nome.find(nome_procurar) >= 0:
+            print("Nome encontrado")
+            print(linha)
+            enc = True
+    if not enc:
+        print("O nome %s não existe." % nome_procurar)
+
+def LerNome():
+    while True:
+        nome = input("Nome ?")
+        if ValidaNome (nome):
+            break;
+    return nome;
+
+def ValidaNome(nome):
+
+    import re
+    regex = r"^[A-Z][a-z]{2,10}( [a-z]{2,3}){0,1} [A-Z][a-z]{2,10}"
+    matches = re.finditer(regex, nome, re.MULTILINE)
+
+    matchNum = 0
+    for matchNum, match in enumerate(matches):
+        matchNum = matchNum + 1
+
+    if  matchNum > 0:
+        return True
+
+    return False
+
+
+def Inserir():
+    # nome: texto, 50
+    # data_nascimento Data, 1
+    # posicao: texto, 10 (Lateral esquerdo, ...) - vetor
+    # email: texto, 30
+    # telefone: texto, 15
+    # agente: texto, 50
+    # estado: texto  20 (lesionado, apto, etc) .vetor
+    # vencimento: real (12.2)
+
+    posicoes = ["GR", "LE", "LD"]
+    nome = LerNome()
+
+    while True:
+        data_nascimento = input("Data nascimento ?")
+        if data_nascimento != "":
+            break;
+    while True:
+        posicao = input("Posição ?")
+        if posicao != "":
+            break;
+    while True:
+        email = input("E-Mail ?")
+        if email != "":
+            break;
+    while True:
+        telefone = input("Telefone | telemóvel ?")
+        if telefone != "":
+            break;
+    while True:
+        agente = input("Agente ?")
+        if agente != "":
+            break;
+    while True:
+        estado = input("Estado ?")
+        if estado != "":
+            break;
+    while True:
+        vencimento = input("Vencimento ?")
+        if vencimento != "":
+            break;
+
+    f = open(nome_ficheiro, "at")
+    print("%-50s" % nome, file=f, end='')
+    print("%-10s" % data_nascimento, file=f, end='')
+    print("%-10s" % posicao, file=f,  end='')
+    print("%-30s" % email, file=f, end='')
+    print("%-15s" % telefone, file=f, end='')
+    print("%-50s" % agente, file=f, end='')
+    print("%-20s" % estado, file=f, end='')
+    print("%-12s" % vencimento, file=f)
+    f.close()
+
+def MenuGestaoJogadores():
+    opcoes = ["Gestão de Jogadores\n\n"              "1 - Inserir",              "2 - Alterar",
+              "3 - Eliminar",              "4 - Pesquisa por nome",
+              "5 - Listar todos",              "6 - Lista de contactos ordenada por nome",
+              "0 - Terminar"]
+    while True:
+        os.system("cls")
+        for o in opcoes:
+            print(o)
+        o = input("?")
+        if o == '1':
+            Inserir()
+        elif o == '4':
+            PesquisaPorNome()
+        elif o == '5':
+            Eliminar()
+        elif o == '0':
+            break
+
+MenuGestaoJogadores()
+
